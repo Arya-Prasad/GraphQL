@@ -53,6 +53,44 @@ class CreateEmployee(graphene.Mutation):
 
         return CreateEmployee(employee = employee)
 
+    
+class CountableConnection(graphene.relay.Connection):
+    class Meta:
+        abstract = True
+
+    total_count = graphene.Int()
+
+    @staticmethod
+    def resolve_total_count(root, info, *args, **kwargs):
+        return root.length
+
+graphene.relay.connection = CountableConnection
+
+
+class CustomSQLAlchemyObjectType(SQLAlchemyObjectType):
+
+    class Meta:
+        abstract = True
+
+    @classmethod
+    def __init_subclass_with_meta__(cls, model=None, registry=None, skip_registry=False,
+                                    only_fields=(), exclude_fields=(), connection=None,
+                                    use_connection=None, interfaces=(), id=None, **options):
+        # Force it to use the countable connection
+        countable_conn = connection or CountableConnection.create_type("{}CountableConnection".format(model.__name__), node=cls)
+
+        super(CustomSQLAlchemyObjectType, cls).__init_subclass_with_meta__(
+                                                                   model,
+                                                                   registry,
+                                                                   skip_registry,
+                                                                   only_fields,
+                                                                   exclude_fields, 
+                                                                   countable_conn,
+                                                                   use_connection, 
+                                                                   interfaces, 
+                                                                   id,
+                                                                   **options)    
+
 
 class Mutation(graphene.ObjectType):
     createEmployee = CreateEmployee.Field()
