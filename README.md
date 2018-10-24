@@ -1,7 +1,7 @@
 # GraphQL
 An example project showing integration of Graphene, Flask and SQLAlchemy. This is based on the [Example Flask+SQLAlchemy Project](https://github.com/graphql-python/graphene-sqlalchemy/tree/master/examples/flask_sqlalchemy). 
 
-I have included GraphQL mutations and have used graphene.relay for pagination. See [Wiki](https://github.com/AryaDevops/GraphQL/wiki) for example queries.
+I have included GraphQL mutations and have used graphene.relay for pagination. See [Wiki](https://github.com/AryaDevops/GraphQL/wiki/Flask-Graphene-SQLAlchemy) for example queries.
 
 
 # Set up Guide
